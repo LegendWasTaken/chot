@@ -33,12 +33,13 @@ void test_position(chot::position pos, int depth, std::uint64_t expected_node_co
 }
 
 int main() {
-    std::cout << "Running perft tests\n--------------" << std::endl;
+    std::cout << "Running perft tests (Starting pos)\n--------------" << std::endl;
     test_position(chot::position(), 0, 1);
     test_position(chot::position(), 1, 20);
     test_position(chot::position(), 2, 400);
     test_position(chot::position(), 3, 8'902);
+    test_position(chot::position(), 4, 197'281);
 
-//    test_position(chot::position("rnbqkbnr/pppppppp/8/8/8/P7/1PPPPPPP/RNBQKBNR b KQkq - 0 1"), 2, 380);
-//    test_position(chot::position("rnbqkbnr/1ppppppp/8/p7/8/P7/1PPPPPPP/RNBQKBNR w KQkq a6 0 2"), 1, 19);
+    std::cout << "Running perft tests (Weird positions)\n--------------" << std::endl;
+//    test_position(chot::position("rnbqkbnr/1ppppppp/8/p7/1P6/P7/2PPPPPP/RNBQKBNR b KQkq b3 0 2"), 1, 22);
 }

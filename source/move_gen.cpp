@@ -47,7 +47,7 @@ namespace chot::move_gen {
             {
                 if (square.file() != file::a) {
                     const auto left = chot::square(i - 1 + 8 * color_sign);
-                    if (left.rank() == square.rank()) {
+                    if (static_cast<std::uint8_t>(left.rank()) == static_cast<std::uint8_t>(square.rank()) + 1 * color_sign) {
                         if (chot::bitboard::test(boards, left).is_capturable(is_white)) {
                             callback(chot::move {
                                     .from = square,
@@ -60,7 +60,7 @@ namespace chot::move_gen {
 
                 if (square.file() != file::h) {
                     const auto right = chot::square(i + 1 + 8 * color_sign);
-                    if (right.rank() == square.rank()) {
+                    if (static_cast<std::uint8_t>(right.rank()) == static_cast<std::uint8_t>(square.rank()) + 1 * color_sign) {
                         if (chot::bitboard::test(boards, right).is_capturable(is_white)) {
                             callback(chot::move {
                                     .from = square,

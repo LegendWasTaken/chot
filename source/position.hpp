@@ -22,7 +22,7 @@ namespace chot {
         std::array<chot::bitboard, 12> boards = {};
         std::optional<chot::square> en_passant = {};
         chot::castling castling = {};
-        bool white_to_move = true;
+        bool white_to_move = false;
 
     public:
         explicit position(std::string_view fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");

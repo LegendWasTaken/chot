@@ -74,11 +74,15 @@ namespace chot {
     }
 
     bool test_result::is_capturable(bool is_white) const noexcept {
-        const auto bit_index = chot::detail::bit_index(data);
-        if (is_white) {
-            return bit_index >= 6;
+        if (is_occupied()) {
+            const auto bit_index = chot::detail::bit_index(data);
+            if (is_white) {
+                return bit_index >= 6;
+            } else {
+                return bit_index < 6;
+            }
         } else {
-            return bit_index < 6;
+            return false;
         }
     }
 
