@@ -34,14 +34,18 @@ void test_position(chot::position pos, int depth, std::uint64_t expected_node_co
 
 int main() {
     std::cout << "Running perft tests (Starting pos)\n--------------" << std::endl;
-    test_position(chot::position(), 0, 1);
-    test_position(chot::position(), 1, 20);
-    test_position(chot::position(), 2, 400);
-    test_position(chot::position(), 3, 8'902);
-    test_position(chot::position(), 4, 197'281);
-    test_position(chot::position(), 5, 4'865'609);
+//    test_position(chot::position(), 0, 1);
+//    test_position(chot::position(), 1, 20);
+//    test_position(chot::position(), 2, 400);
+//    test_position(chot::position(), 3, 8'902);
+//    test_position(chot::position(), 4, 197'281);
+//    test_position(chot::position(), 5, 4'865'609);
 
-    std::cout << "Running perft tests (Weird positions)\n--------------" << std::endl;
-//    test_position(chot::position("rnbqkbnr/p1pppppp/8/8/1p6/3P4/PPPKPPPP/RNBQ1BNR w kq - 0 3"), 1, 21);
-//    test_position(chot::position("rnbqkbnr/1ppppppp/p7/8/PP6/8/2PPPPPP/RNBQKBNR b KQkq b3 0 2"), 2, 419);
+    std::cout << "Running perft tests (Kiwipete)\n--------------" << std::endl;
+//    test_position(chot::position("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"), 0, 1);
+//    test_position(chot::position("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"), 1, 48);
+//    test_position(chot::position("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"), 2, 2'039);
+//    test_position(chot::position("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"), 3, 97'862);
+//    test_position(chot::position("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/2N2Q1p/PPPBBPPP/R3K2R w KQkq - 0 1"), 4, 4'085'603);
+    test_position(chot::position("r3k2r/p1ppqpb1/bn2pnp1/3PN3/1p2P3/P1N2Q1p/1PPBBPPP/R3K2R b KQkq - 0 1"), 3, 94405);
 }

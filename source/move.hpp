@@ -43,11 +43,12 @@ namespace chot {
         if (move.from.index() == 0 && move.to.index() == 0) {
             stream << "invalid";
         } else {
-            if (move.short_castle) {
-                stream << "O-O";
-            } else if (move.long_castle) {
-                stream << "O-O-O";
-            } else {
+//            if (move.short_castle) {
+//                stream << "O-O";
+//            } else if (move.long_castle) {
+//                stream << "O-O-O";
+//            } else {
+            {
                 stream << move.from;
                 if (move.takes) {
 //                    stream << 'x';

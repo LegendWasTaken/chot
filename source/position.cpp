@@ -123,6 +123,32 @@ namespace chot {
 
         for (size_t i = 0; i < moves.size(); i++) {
             auto after_move = this->apply_move(moves[i]);
+            if (moves[i].short_castle) {
+                const auto rank = white_to_move ? rank::first : rank::eighth;
+                // Is the king going through a check?
+                const auto square_to_check = chot::square(file::f, rank);
+                // Create fake moves for king to square to check
+                const auto proxy_move = chot::move {
+                    .from = chot::square(file::e, rank),
+                    .to = square_to_check
+                };
+                auto after_proxy_move = this->apply_move(proxy_move);
+                if (after_proxy_move.is_check(white_to_move)) {
+                    continue;
+                }
+            } else if (moves[i].long_castle) {
+                const auto rank = white_to_move ? rank::first : rank::eighth;
+                const auto square_to_check = chot::square(file::d, rank);
+                const auto proxy_move = chot::move {
+                        .from = chot::square(file::e, rank),
+                        .to = square_to_check
+                };
+                auto after_proxy_move = this->apply_move(proxy_move);
+                if (after_proxy_move.is_check(white_to_move)) {
+                    continue;
+                }
+            }
+
             if (!after_move.is_check(white_to_move)) {
                 legal_moves.push_back(moves[i]);
             }
