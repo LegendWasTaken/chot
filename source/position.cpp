@@ -152,7 +152,30 @@ namespace chot {
         // If it's a pawn and moved 2 squares
         if (from_index % 6 == static_cast<std::uint8_t>(piece::type::white_pawn) &&
                 std::abs(static_cast<std::int32_t>(move.from.rank()) - static_cast<std::int32_t>(move.to.rank())) == 2) {
-            applied.en_passant = move.to;
+            // it *might* be en passant, only set if there are pawns next to self
+            auto pawn_to_side = false;
+
+            if (move.to.file() != file::a) {
+                // Check left
+                const auto left = chot::square(move.to.index() - 1);
+                if (chot::bitboard::test(boards, left).piece_index() == static_cast<std::uint8_t>(
+                        white_to_move ? piece::type::black_pawn : piece::type::white_pawn)) {
+                    pawn_to_side = true;
+                }
+            }
+
+            if (move.to.file() != file::h) {
+                // Check right
+                const auto right = chot::square(move.to.index() + 1);
+                if (chot::bitboard::test(boards, right).piece_index() == static_cast<std::uint8_t>(
+                        white_to_move ? piece::type::black_pawn : piece::type::white_pawn)) {
+                    pawn_to_side = true;
+                }
+            }
+
+            if (pawn_to_side) {
+                applied.en_passant = move.to;
+            }
         }
 
         // No more castling if it's a king move

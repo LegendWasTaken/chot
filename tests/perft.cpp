@@ -42,5 +42,6 @@ int main() {
 //    test_position(chot::position(), 5, 4'865'609);
 
     std::cout << "Running perft tests (Weird positions)\n--------------" << std::endl;
-    test_position(chot::position("rnbqkbnr/pppppppp/8/8/P7/8/1PPPPPPP/RNBQKBNR b KQkq a3 0 1"), 4, 217832);
+    test_position(chot::position("rnbqkbnr/1ppppppp/p7/8/P7/8/1PPPPPPP/RNBQKBNR w KQkq - 0 2"), 3, 9312);
+    test_position(chot::position("rnbqkbnr/1ppppppp/p7/8/PP6/8/2PPPPPP/RNBQKBNR b KQkq b3 0 2"), 2, 419);
 }
