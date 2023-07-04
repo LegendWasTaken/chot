@@ -1,0 +1,44 @@
+#include <iostream>
+#include "position.hpp"
+
+std::uint64_t perft(chot::position pos, int depth, bool display_debug = false) {
+    if (depth == 0) {
+        return 1;
+    } // The base case is very important
+
+    const auto moves = pos.possible_moves();
+    auto under = std::uint64_t(0);
+    for (size_t i = 0; i < moves.size(); i++) {
+        const auto at_move = perft(pos.apply_move(moves[i]), depth - 1);
+        under += at_move;
+        if (display_debug) {
+            std::cout << moves[i] << " - " << at_move << std::endl;
+        }
+    }
+
+    return under;
+}
+
+void test_position(chot::position pos, int depth, std::uint64_t expected_node_count) {
+    const auto node_count = perft(pos, depth);
+    std::cout << "[Fen: \"" << pos.original_fen() << "\", depth: " << depth << "]";
+    std::cout << " - [ Got: " << node_count << ", Expected: " << expected_node_count << "]";
+    if (node_count != expected_node_count) {
+        std::cout << " - FAILED" << std::endl;
+        perft(pos, depth, true);
+    } else {
+        std::cout << " - SUCCESS" << std::endl;
+    }
+
+}
+
+int main() {
+    std::cout << "Running perft tests\n--------------" << std::endl;
+    test_position(chot::position(), 0, 1);
+    test_position(chot::position(), 1, 20);
+    test_position(chot::position(), 2, 400);
+    test_position(chot::position(), 3, 8'902);
+
+//    test_position(chot::position("rnbqkbnr/pppppppp/8/8/8/P7/1PPPPPPP/RNBQKBNR b KQkq - 0 1"), 2, 380);
+//    test_position(chot::position("rnbqkbnr/1ppppppp/8/p7/8/P7/1PPPPPPP/RNBQKBNR w KQkq a6 0 2"), 1, 19);
+}
