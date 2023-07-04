@@ -49,7 +49,7 @@ namespace chot {
             } else {
                 stream << move.from;
                 if (move.takes) {
-                    stream << 'x';
+//                    stream << 'x';
                 }
                 stream << move.to;
                 if (move.check) {

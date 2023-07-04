@@ -135,13 +135,13 @@ namespace chot {
         auto applied = *this;
 
         const auto from_index = bitboard::test(applied.boards, move.from).piece_index();
-        applied.boards[from_index].unset(move.from);
-        applied.boards[from_index].set(move.to);
 
         if (move.takes) {
             const auto to_index = bitboard::test(applied.boards, move.to).piece_index();
             applied.boards[to_index].unset(move.to);
         }
+        applied.boards[from_index].unset(move.from);
+        applied.boards[from_index].set(move.to);
 
         // No more castling if it's a king move
         if (from_index == static_cast<std::uint8_t>(applied.white_to_move ? piece::type::white_king : piece::type::black_king)) {
