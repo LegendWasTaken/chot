@@ -123,6 +123,10 @@ namespace chot {
 
         for (size_t i = 0; i < moves.size(); i++) {
             auto after_move = this->apply_move(moves[i]);
+            if ((moves[i].short_castle || moves[i].long_castle) && this->is_check(white_to_move)) {
+                continue;
+            }
+
             if (moves[i].short_castle) {
                 const auto rank = white_to_move ? rank::first : rank::eighth;
                 // Is the king going through a check?
