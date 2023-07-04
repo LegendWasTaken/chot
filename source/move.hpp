@@ -57,6 +57,34 @@ namespace chot {
                 if (move.check) {
                     stream << '+';
                 }
+                if (move.promotion.has_value()) {
+                    switch (move.promotion.value()) {
+                        case piece::type::white_knight:
+                            stream << "N";
+                            break;
+                        case piece::type::white_bishop:
+                            stream << "B";
+                            break;
+                        case piece::type::white_rook:
+                            stream << "R";
+                            break;
+                        case piece::type::white_queen:
+                            stream << "Q";
+                            break;
+                        case piece::type::black_knight:
+                            stream << "n";
+                            break;
+                        case piece::type::black_bishop:
+                            stream << "b";
+                            break;
+                        case piece::type::black_rook:
+                            stream << "r";
+                            break;
+                        case piece::type::black_queen:
+                            stream << "q";
+                            break;
+                    }
+                }
             }
         }
 

@@ -13,12 +13,31 @@ namespace chot::move_gen {
             const auto square = chot::square(i);
             const auto color_sign = is_white ? 1 : -1;
             const auto initial_rank = is_white ? rank::second : rank::seventh;
+            const auto last_rank = is_white ? rank::seventh : rank::second;
+            const auto do_promotions = [is_white, callback, square](chot::square to){
+                const auto promotions = is_white ?
+                                        std::array<piece::type, 4>({piece::type::white_knight, piece::type::white_bishop, piece::type::white_rook, piece::type::white_queen}) :
+                                        std::array<piece::type, 4>({piece::type::black_knight, piece::type::black_bishop, piece::type::black_rook, piece::type::black_queen});
+
+                for (auto promotion : promotions) {
+                    callback(chot::move {
+                            .from = square,
+                            .to = to,
+                            .promotion = promotion
+                    });
+                }
+            };
+
             // Regular move forward
             if (!chot::bitboard::test(boards, i + 8 * color_sign).is_occupied()) {
-                callback(chot::move {
-                        .from = square,
-                        .to = chot::square(i + 8 * color_sign)
-                });
+                if (square.rank() != last_rank) {
+                    callback(chot::move {
+                            .from = square,
+                            .to = chot::square(i + 8 * color_sign)
+                    });
+                } else {
+                    do_promotions(chot::square(i + 8 * color_sign));
+                }
 
                 if (square.rank() == initial_rank) {
                     if (!chot::bitboard::test(boards, i + 16 * color_sign).is_occupied()) {
@@ -50,11 +69,15 @@ namespace chot::move_gen {
                     const auto left = chot::square(i - 1 + 8 * color_sign);
                     if (static_cast<std::uint8_t>(left.rank()) == static_cast<std::uint8_t>(square.rank()) + 1 * color_sign) {
                         if (chot::bitboard::test(boards, left).is_capturable(is_white)) {
-                            callback(chot::move {
-                                    .from = square,
-                                    .to = left,
-                                    .takes = true,
-                            });
+                            if (square.rank() == last_rank) {
+                                do_promotions(left);
+                            } else {
+                                callback(chot::move {
+                                        .from = square,
+                                        .to = left,
+                                        .takes = true,
+                                });
+                            }
                         }
                     }
                 }
@@ -63,11 +86,15 @@ namespace chot::move_gen {
                     const auto right = chot::square(i + 1 + 8 * color_sign);
                     if (static_cast<std::uint8_t>(right.rank()) == static_cast<std::uint8_t>(square.rank()) + 1 * color_sign) {
                         if (chot::bitboard::test(boards, right).is_capturable(is_white)) {
-                            callback(chot::move {
-                                    .from = square,
-                                    .to = right,
-                                    .takes = true,
-                            });
+                            if (square.rank() == last_rank) {
+                                do_promotions(right);
+                            } else {
+                                callback(chot::move {
+                                        .from = square,
+                                        .to = right,
+                                        .takes = true,
+                                });
+                            }
                         }
                     }
                 }
