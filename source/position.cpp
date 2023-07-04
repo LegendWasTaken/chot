@@ -288,7 +288,26 @@ namespace chot {
             return true;
         }
 
-         // Pawns - To do
+         // Pawns
+        {
+            const auto color_sign = for_white ? 1 : -1;
+            const auto king_square = chot::square(king_index);
+            const auto enemy_pawn_type = for_white ? piece::type::black_pawn : piece::type::white_pawn;
+
+            if (king_square.file() != file::a) {
+                const auto left = chot::square(king_index - 1 + 8 * color_sign);
+                if (bitboard::test(boards, left).piece_index() == static_cast<std::uint8_t>(enemy_pawn_type)) {
+                    in_check = true;
+                }
+            }
+
+            if (king_square.file() != file::h) {
+                const auto right = chot::square(king_index + 1 + 8 * color_sign);
+                if (bitboard::test(boards, right).piece_index() == static_cast<std::uint8_t>(enemy_pawn_type)) {
+                    in_check = true;
+                }
+            }
+        }
 
         return in_check;
     }

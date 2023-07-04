@@ -34,14 +34,14 @@ void test_position(chot::position pos, int depth, std::uint64_t expected_node_co
 
 int main() {
     std::cout << "Running perft tests (Starting pos)\n--------------" << std::endl;
-//    test_position(chot::position(), 0, 1);
-//    test_position(chot::position(), 1, 20);
-//    test_position(chot::position(), 2, 400);
-//    test_position(chot::position(), 3, 8'902);
-//    test_position(chot::position(), 4, 197'281);
-//    test_position(chot::position(), 5, 4'865'609);
+    test_position(chot::position(), 0, 1);
+    test_position(chot::position(), 1, 20);
+    test_position(chot::position(), 2, 400);
+    test_position(chot::position(), 3, 8'902);
+    test_position(chot::position(), 4, 197'281);
+    test_position(chot::position(), 5, 4'865'609);
 
     std::cout << "Running perft tests (Weird positions)\n--------------" << std::endl;
-    test_position(chot::position("rnbqkbnr/1ppppppp/p7/8/P7/8/1PPPPPPP/RNBQKBNR w KQkq - 0 2"), 3, 9312);
-    test_position(chot::position("rnbqkbnr/1ppppppp/p7/8/PP6/8/2PPPPPP/RNBQKBNR b KQkq b3 0 2"), 2, 419);
+//    test_position(chot::position("rnbqkbnr/p1pppppp/8/8/1p6/3P4/PPPKPPPP/RNBQ1BNR w kq - 0 3"), 1, 21);
+//    test_position(chot::position("rnbqkbnr/1ppppppp/p7/8/PP6/8/2PPPPPP/RNBQKBNR b KQkq b3 0 2"), 2, 419);
 }
