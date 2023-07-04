@@ -39,6 +39,7 @@ namespace chot::move_gen {
                             .from = square,
                             .to = chot::square(en_passant.value().index() + 8 * color_sign),
                             .takes = true,
+                            .en_passant = true,
                     });
                 }
             }

@@ -18,6 +18,7 @@ namespace chot {
         bool takes = false;
         bool short_castle = false;
         bool long_castle = false;
+        bool en_passant = false;
         std::optional<chot::piece::type> promotion = std::nullopt;
     };
 

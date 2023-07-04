@@ -137,11 +137,23 @@ namespace chot {
         const auto from_index = bitboard::test(applied.boards, move.from).piece_index();
 
         if (move.takes) {
-            const auto to_index = bitboard::test(applied.boards, move.to).piece_index();
-            applied.boards[to_index].unset(move.to);
+            if (move.en_passant) {
+                const auto to_index = bitboard::test(applied.boards, en_passant.value()).piece_index();
+                applied.boards[to_index].unset(en_passant.value());
+                applied.en_passant = std::nullopt;
+            } else {
+                const auto to_index = bitboard::test(applied.boards, move.to).piece_index();
+                applied.boards[to_index].unset(move.to);
+            }
         }
         applied.boards[from_index].unset(move.from);
         applied.boards[from_index].set(move.to);
+
+        // If it's a pawn and moved 2 squares
+        if (from_index % 6 == static_cast<std::uint8_t>(piece::type::white_pawn) &&
+                std::abs(static_cast<std::int32_t>(move.from.rank()) - static_cast<std::int32_t>(move.to.rank())) == 2) {
+            applied.en_passant = move.to;
+        }
 
         // No more castling if it's a king move
         if (from_index == static_cast<std::uint8_t>(applied.white_to_move ? piece::type::white_king : piece::type::black_king)) {
