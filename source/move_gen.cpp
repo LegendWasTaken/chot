@@ -14,7 +14,7 @@ namespace chot::move_gen {
             const auto color_sign = is_white ? 1 : -1;
             const auto initial_rank = is_white ? rank::second : rank::seventh;
             const auto last_rank = is_white ? rank::seventh : rank::second;
-            const auto do_promotions = [is_white, callback, square](chot::square to){
+            const auto do_promotions = [is_white, callback, square](chot::square to, bool takes){
                 const auto promotions = is_white ?
                                         std::array<piece::type, 4>({piece::type::white_knight, piece::type::white_bishop, piece::type::white_rook, piece::type::white_queen}) :
                                         std::array<piece::type, 4>({piece::type::black_knight, piece::type::black_bishop, piece::type::black_rook, piece::type::black_queen});
@@ -23,6 +23,7 @@ namespace chot::move_gen {
                     callback(chot::move {
                             .from = square,
                             .to = to,
+                            .takes = takes,
                             .promotion = promotion
                     });
                 }
@@ -36,7 +37,7 @@ namespace chot::move_gen {
                             .to = chot::square(i + 8 * color_sign)
                     });
                 } else {
-                    do_promotions(chot::square(i + 8 * color_sign));
+                    do_promotions(chot::square(i + 8 * color_sign), false);
                 }
 
                 if (square.rank() == initial_rank) {
@@ -51,15 +52,28 @@ namespace chot::move_gen {
 
             // French move.png
             if (en_passant.has_value()) {
-                const auto left = chot::square(i + 1);
-                const auto right = chot::square(i - 1);
-                if ((left.rank() == square.rank() && *en_passant == left) || (right.rank() == square.rank() && *en_passant == right)) {
-                    callback(chot::move{
-                            .from = square,
-                            .to = chot::square(en_passant.value().index() + 8 * color_sign),
-                            .takes = true,
-                            .en_passant = true,
-                    });
+                if (square.file() != file::a) {
+                    const auto left = chot::square(i - 1);
+                    if (left == *en_passant) {
+                        callback(chot::move{
+                                .from = square,
+                                .to = chot::square(en_passant.value().index() + 8 * color_sign),
+                                .takes = true,
+                                .en_passant = true,
+                        });
+                    }
+                }
+
+                if (square.file() != file::h) {
+                    const auto right = chot::square(i + 1);
+                    if (right == *en_passant) {
+                        callback(chot::move{
+                                .from = square,
+                                .to = chot::square(en_passant.value().index() + 8 * color_sign),
+                                .takes = true,
+                                .en_passant = true,
+                        });
+                    }
                 }
             }
 
@@ -70,7 +84,7 @@ namespace chot::move_gen {
                     if (static_cast<std::uint8_t>(left.rank()) == static_cast<std::uint8_t>(square.rank()) + 1 * color_sign) {
                         if (chot::bitboard::test(boards, left).is_capturable(is_white)) {
                             if (square.rank() == last_rank) {
-                                do_promotions(left);
+                                do_promotions(left, true);
                             } else {
                                 callback(chot::move {
                                         .from = square,
@@ -87,7 +101,7 @@ namespace chot::move_gen {
                     if (static_cast<std::uint8_t>(right.rank()) == static_cast<std::uint8_t>(square.rank()) + 1 * color_sign) {
                         if (chot::bitboard::test(boards, right).is_capturable(is_white)) {
                             if (square.rank() == last_rank) {
-                                do_promotions(right);
+                                do_promotions(right, true);
                             } else {
                                 callback(chot::move {
                                         .from = square,

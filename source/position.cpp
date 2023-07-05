@@ -41,7 +41,7 @@ namespace chot {
         {
             if (*(++it) != '-') {
                 while (*(it) != ' ') {
-                    const auto index_to_set = [character = *(it++)]() {
+                    const auto index_to_set = [character = *(it)]() {
                         switch (character) {
                             case 'K':
                                 return 0;
@@ -66,8 +66,8 @@ namespace chot {
 
         {
             if (*++it != '-') {
-                const auto file = static_cast<uint8_t>(*(++it) - 'a');
-                const auto rank = static_cast<uint8_t>((*(++it) - '0'));
+                const auto file = static_cast<uint8_t>(*(it++) - 'a');
+                const auto rank = static_cast<uint8_t>((*(it++) - '0'));
                 en_passant = chot::square(file, rank);
             }
         }
@@ -165,6 +165,7 @@ namespace chot {
         auto applied = *this;
 
         const auto from_index = bitboard::test(applied.boards, move.from).piece_index();
+        applied.en_passant = std::nullopt;
 
         if (move.takes) {
             if (move.en_passant) {
@@ -174,10 +175,29 @@ namespace chot {
             } else {
                 const auto to_index = bitboard::test(applied.boards, move.to).piece_index();
                 applied.boards[to_index].unset(move.to);
+
+                if (to_index % 6 == static_cast<std::uint8_t>(piece::type::white_rook)) {
+                    // If we're taking a rook, update the castling availability
+                    const auto required_rank = white_to_move ? rank::eighth : rank::first;
+                    if (move.to.rank() == required_rank) {
+                        if (move.to.file() == file::h) {
+                            applied.castling.disallow_kingside(!white_to_move);
+                        } else if (move.to.file() == file::a) {
+                            applied.castling.disallow_queenside(!white_to_move);
+                        }
+                    }
+                }
             }
         }
         applied.boards[from_index].unset(move.from);
-        applied.boards[from_index].set(move.to);
+
+
+        // If it's a pawn and there's a promotion inbound
+        if (from_index % 6 == static_cast<std::uint8_t>(piece::type::white_pawn) && move.promotion.has_value()) {
+            applied.boards[static_cast<std::uint8_t>(move.promotion.value())].set(move.to);
+        } else {
+            applied.boards[from_index].set(move.to);
+        }
 
         // If it's a pawn and moved 2 squares
         if (from_index % 6 == static_cast<std::uint8_t>(piece::type::white_pawn) &&

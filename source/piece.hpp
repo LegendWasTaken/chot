@@ -68,7 +68,7 @@ namespace chot {
 
     class castling {
     private:
-        std::uint8_t rights = 15;
+        std::uint8_t rights = 0;
     public:
         castling() = default;
 
