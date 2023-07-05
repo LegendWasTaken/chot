@@ -303,7 +303,11 @@ namespace chot {
         move_gen::detail::enumerate_bishop_moves(boards, for_white, king_index, [this, &in_check, for_white](chot::move move){
             const auto target_square = move.to;
             const auto board_index = static_cast<std::uint8_t>(for_white ? piece::type::black_bishop : piece::type::white_bishop);
+            const auto queen_index = static_cast<std::uint8_t>(for_white ? piece::type::black_queen : piece::type::white_queen);
             if (boards[board_index].occupied(target_square)) {
+                in_check = true;
+            }
+            if (boards[queen_index].occupied(target_square)) {
                 in_check = true;
             }
         });
@@ -316,20 +320,11 @@ namespace chot {
         move_gen::detail::enumerate_rook_moves(boards, for_white, king_index, [this, &in_check, for_white](chot::move move){
             const auto target_square = move.to;
             const auto board_index = static_cast<std::uint8_t>(for_white ? piece::type::black_rook : piece::type::white_rook);
+            const auto queen_index = static_cast<std::uint8_t>(for_white ? piece::type::black_queen : piece::type::white_queen);
             if (boards[board_index].occupied(target_square)) {
                 in_check = true;
             }
-        });
-
-        if (in_check) {
-            return true;
-        }
-
-        // Queen - Maybe this can be added in the rook / bishop checks? save some time
-        move_gen::detail::enumerate_queen_moves(boards, for_white, king_index, [this, &in_check, for_white](chot::move move){
-            const auto target_square = move.to;
-            const auto board_index = static_cast<std::uint8_t>(for_white ? piece::type::black_queen : piece::type::white_queen);
-            if (boards[board_index].occupied(target_square)) {
+            if (boards[queen_index].occupied(target_square)) {
                 in_check = true;
             }
         });
