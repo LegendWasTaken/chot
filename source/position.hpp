@@ -38,6 +38,12 @@ namespace chot {
         [[nodiscard]] bool is_checkmate(bool for_white) const noexcept;
 
         [[nodiscard]] std::string_view original_fen() const noexcept;
+
+        [[nodiscard]] bool occupied(chot::square square) const noexcept;
+
+        [[nodiscard]] chot::castling &castling_rights() noexcept;
+
+        [[nodiscard]] bool is_whites_turn() const noexcept;
     };
 
     inline std::ostream &operator<<(std::ostream &stream, const chot::position &position) {

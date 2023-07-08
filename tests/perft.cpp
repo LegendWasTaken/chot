@@ -88,3 +88,4 @@ int main() {
     const auto moves_per_ms = float(total) / float(delta);
     std::cout << "Took " << delta << "ms. To iterate through " << total << " nodes (" << moves_per_ms << "npms)" << std::endl;
 }
+

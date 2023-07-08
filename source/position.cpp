@@ -333,6 +333,19 @@ namespace chot {
             return true;
         }
 
+        // Other king
+        move_gen::detail::enumerate_king_moves(boards, for_white, chot::castling(false, false, false, false), king_index, [this, &in_check, for_white](chot::move move){
+            const auto target_square = move.to;
+            const auto board_index = static_cast<std::uint8_t>(for_white ? piece::type::black_king : piece::type::white_king);
+            if (boards[board_index].occupied(target_square)) {
+                in_check = true;
+            }
+        });
+
+        if (in_check) {
+            return true;
+        }
+
          // Pawns
         {
             const auto color_sign = for_white ? 1 : -1;
@@ -363,5 +376,17 @@ namespace chot {
 
     std::string_view position::original_fen() const noexcept {
         return fen;
+    }
+
+    bool position::occupied(chot::square square) const noexcept {
+        return bitboard::occupied(boards, square);
+    }
+
+    chot::castling &position::castling_rights() noexcept {
+        return castling;
+    }
+
+    bool position::is_whites_turn() const noexcept {
+        return white_to_move;
     }
 } // chot

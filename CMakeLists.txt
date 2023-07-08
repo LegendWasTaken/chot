@@ -10,3 +10,8 @@ target_link_libraries(chot-driver PUBLIC chot)
 add_executable(chot-perft tests/perft.cpp)
 target_link_libraries(chot-perft PUBLIC chot)
 target_include_directories(chot-perft PUBLIC source)
+
+add_executable(chot-uci source/uci.cpp)
+target_link_libraries(chot-uci PUBLIC chot)
+target_include_directories(chot-uci PUBLIC source)
+# position startpos moves d2d4 g8f6 c2c4 g7g6 b1c3 f8g7 e2e4 d7d6  g1f3 e8g8
