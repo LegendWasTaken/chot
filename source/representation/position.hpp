@@ -44,6 +44,8 @@ namespace chot {
         [[nodiscard]] chot::castling &castling_rights() noexcept;
 
         [[nodiscard]] bool is_whites_turn() const noexcept;
+
+        [[nodiscard]] std::int32_t material_delta() const noexcept;
     };
 
     inline std::ostream &operator<<(std::ostream &stream, const chot::position &position) {

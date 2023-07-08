@@ -1,4 +1,5 @@
 #include "representation/position.hpp"
+#include "engine/engine.hpp"
 
 #include <iostream>
 #include <string>
@@ -119,9 +120,9 @@ void handle_uci_command(std::string_view command, uci_state *state) {
                 }
             }
         } else if (token == "go") {
-            auto moves = state->position.possible_moves();
-            const auto move_index = std::rand() % moves.size();
-            std::cout << "bestmove " << moves[move_index] << std::endl;
+            const auto best = chot::engine::best_move(state->position);
+            state->position = state->position.apply_move(best);
+            std::cout << "bestmove " << best << std::endl;
         }
     }
 }

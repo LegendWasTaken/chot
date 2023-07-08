@@ -389,4 +389,33 @@ namespace chot {
     bool position::is_whites_turn() const noexcept {
         return white_to_move;
     }
+
+    std::int32_t position::material_delta() const noexcept {
+        const auto count_material = [this](piece::type type){
+            const auto bits = boards[static_cast<std::uint8_t>(type)].bits();
+            auto count = 0;
+            for (size_t i = 0; i < 64; i++) {
+                if (bits & (std::uint64_t(1) << i)) {
+                    count += 1;
+                }
+            }
+            return std::int32_t(count * piece::material_value(type));
+        };
+
+        const auto white_material = 
+                count_material(piece::type::white_pawn) + 
+                count_material(piece::type::white_knight) + 
+                count_material(piece::type::white_bishop) + 
+                count_material(piece::type::white_rook) + 
+                count_material(piece::type::white_queen);
+
+        const auto black_material = 
+                count_material(piece::type::black_pawn) + 
+                count_material(piece::type::black_knight) + 
+                count_material(piece::type::black_bishop) + 
+                count_material(piece::type::black_rook) + 
+                count_material(piece::type::black_queen);
+
+        return white_material - black_material;
+    }
 } // chot
