@@ -1,6 +1,6 @@
 #include <iostream>
 #include <numeric>
-#include "position.hpp"
+#include "representation/position.hpp"
 
 
 //.apply_move(

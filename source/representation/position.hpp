@@ -4,7 +4,7 @@
 #include "bitboard.hpp"
 #include "piece.hpp"
 #include "move.hpp"
-#include "util.hpp"
+#include "../util.hpp"
 
 #include <array>
 #include <string_view>

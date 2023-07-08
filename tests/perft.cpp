@@ -1,5 +1,5 @@
 #include <iostream>
-#include "position.hpp"
+#include "representation/position.hpp"
 
 std::uint64_t perft(chot::position pos, int depth, bool display_debug = false) {
     if (depth == 0) {

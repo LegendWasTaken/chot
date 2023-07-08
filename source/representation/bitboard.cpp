@@ -1,6 +1,6 @@
 #include "bitboard.hpp"
 
-#include "util.hpp"
+#include "../util.hpp"
 
 namespace chot {
 
