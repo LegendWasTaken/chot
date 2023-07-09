@@ -1,6 +1,7 @@
 #include <iostream>
 #include <numeric>
 #include "representation/position.hpp"
+#include "engine/engine.hpp"
 
 
 //.apply_move(
@@ -10,13 +11,13 @@
 //            }
 //
 int main() {
-    auto position = chot::position("7r/8/p5R1/P3k3/8/2K5/6n1/8 b - - 18 121");
+    auto position = chot::position("rnbqkbnr/1pBppppp/8/p7/3P4/8/PPP1PPPP/RN1QKBNR b KQkq - 0 1");
+    auto material_advantage = chot::engine::pos_eval::material_advantage(position);
+    std::cout << material_advantage << std::endl;
 
-    auto moves = position.possible_moves();
-    for (size_t i = 0; i < moves.size(); i++) {
-        std::cout << moves[i] << std::endl;
-    }
-    std::cout << "Total possible moves: " << moves.size() << std::endl;
+
+    auto best_move = chot::engine::best_move(position);
+    std::cout << "Best move: " << best_move << std::endl;
 
     return 0;
 }

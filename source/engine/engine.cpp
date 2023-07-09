@@ -1,5 +1,7 @@
 #include "engine.hpp"
 
+#include <iostream>
+
 namespace chot::engine {
     namespace pos_eval {
         float legal_move_eval(chot::position &position) {
@@ -7,12 +9,12 @@ namespace chot::engine {
         }
 
         float material_advantage(chot::position &position) {
-            return static_cast<float>(position.material_delta() * (position.is_whites_turn() ? 1 : -1)) / 100.0f;
+            return static_cast<float>(position.material_delta() * (position.is_whites_turn() ? 1 : -1));
         }
 
         float eval_for_player(chot::position &position) {
             return
-                    legal_move_eval(position) +
+//                    legal_move_eval(position) +
                             material_advantage(position);
         }
     }
@@ -40,12 +42,13 @@ namespace chot::engine {
         const auto moves = pos.possible_moves();
         auto evaluations = std::vector<std::pair<float, chot::move>>();
         for (size_t i = 0; i < moves.size(); i++) {
-            auto to_check = pos.apply_move(moves[0]);
-            evaluations.emplace_back(detail::minmax(to_check, 3), moves[0]);
+            auto to_check = pos.apply_move(moves[i]);
+            evaluations.emplace_back(detail::minmax(to_check, 3), moves[i]);
+            std::cout << "Eval: " << evaluations.back().first << ", Move: " << evaluations.back().second << std::endl;
         }
 
         std::sort(evaluations.begin(), evaluations.end(), [is_white = pos.is_whites_turn()](auto lhs, auto rhs){
-            return is_white ? lhs.first < rhs.first : lhs.first > rhs.first;
+            return is_white ? lhs.first > rhs.first : lhs.first < rhs.first;
         });
 
         return evaluations[0].second;

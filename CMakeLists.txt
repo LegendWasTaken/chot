@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_library(chot source/representation/square.hpp source/representation/move.cpp source/representation/move.hpp source/representation/piece.hpp source/representation/bitboard.cpp source/representation/bitboard.hpp source/representation/position.cpp source/representation/position.hpp source/representation/move_gen.cpp source/representation/move_gen.hpp source/util.hpp source/representation/lut.hpp source/engine/engine.cpp)
 add_executable(chot-driver source/main.cpp)
-target_include_directories(chot PRIVATE source)
+target_include_directories(chot PUBLIC source)
 target_link_libraries(chot-driver PUBLIC chot)
 
 add_executable(chot-perft tests/perft.cpp)

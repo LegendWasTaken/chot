@@ -416,6 +416,6 @@ namespace chot {
                 count_material(piece::type::black_rook) + 
                 count_material(piece::type::black_queen);
 
-        return white_material - black_material;
+        return black_material - white_material;
     }
 } // chot
