@@ -35,15 +35,46 @@ namespace chot::engine {
 
             return best_value;
         }
+
+        float alpha_beta_minmax(chot::position node, std::int32_t depth, float alpha, float beta) {
+            const auto moves = node.possible_moves();
+            if (depth == 0 || moves.size() == 0) {
+                return pos_eval::eval_for_player(node);
+            }
+
+            if (node.is_whites_turn()) {
+                auto value = -std::numeric_limits<float>::infinity();
+                for (size_t i = 0; i < moves.size(); i++) {
+                    value = std::max(value, alpha_beta_minmax(node.apply_move(moves[i]), depth - 1, alpha, beta));
+                    alpha = std::max(alpha, value);
+                    if (value >= beta) {
+                        break; // beta cutoff
+                    }
+                }
+                return value;
+            } else {
+                auto value = std::numeric_limits<float>::infinity();
+                for (size_t i = 0; i < moves.size(); i++) {
+                    value = std::min(value, alpha_beta_minmax(node.apply_move(moves[i]), depth - 1, alpha, beta));
+                    beta = std::min(beta, value);
+                    if (value <= alpha) {
+                        break; // alpha cutoff
+                    }
+                }
+                return value;
+            }
+        }
     }
 
 
     chot::move best_move(chot::position &pos) {
+        constexpr auto inf = std::numeric_limits<float>::infinity();
+
         const auto moves = pos.possible_moves();
         auto evaluations = std::vector<std::pair<float, chot::move>>();
         for (size_t i = 0; i < moves.size(); i++) {
             auto to_check = pos.apply_move(moves[i]);
-            evaluations.emplace_back(detail::minmax(to_check, 3), moves[i]);
+            evaluations.emplace_back(detail::alpha_beta_minmax(to_check, 3, -inf, inf), moves[i]);
             std::cout << "Eval: " << evaluations.back().first << ", Move: " << evaluations.back().second << std::endl;
         }
 
