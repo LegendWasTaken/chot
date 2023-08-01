@@ -104,8 +104,7 @@ void handle_uci_command(std::string_view command, uci_state *state) {
             if (pos_type == "startpos") {
                 state->position = chot::position();
             } else if (pos_type == "fen") {
-                auto fen = std::string();
-                in_stream >> fen;
+                const auto fen = in_stream.str().substr(14);
                 state->position = chot::position(fen);
             }
 
