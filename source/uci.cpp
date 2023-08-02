@@ -104,7 +104,7 @@ void handle_uci_command(std::string_view command, uci_state *state) {
             if (pos_type == "startpos") {
                 state->position = chot::position();
             } else if (pos_type == "fen") {
-                const auto fen = in_stream.str().substr(14);
+                const auto fen = in_stream.str().substr(13);
                 state->position = chot::position(fen);
             }
 
@@ -120,7 +120,6 @@ void handle_uci_command(std::string_view command, uci_state *state) {
             }
         } else if (token == "go") {
             const auto best = chot::engine::best_move(state->position);
-            state->position = state->position.apply_move(best);
             std::cout << "bestmove " << best << std::endl;
         }
     }
