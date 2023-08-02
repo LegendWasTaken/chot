@@ -75,7 +75,6 @@ namespace chot::engine {
         for (size_t i = 0; i < moves.size(); i++) {
             auto to_check = pos.apply_move(moves[i]);
             evaluations.emplace_back(detail::alpha_beta_minmax(to_check, 3, -inf, inf), moves[i]);
-            std::cout << "Eval: " << evaluations.back().first << ", Move: " << evaluations.back().second << std::endl;
         }
 
         std::sort(evaluations.begin(), evaluations.end(), [is_white = pos.is_whites_turn()](auto lhs, auto rhs){

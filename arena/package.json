@@ -1,0 +1,16 @@
+{
+  "name": "arena",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "ingest": "node process.js",
+    "run": "node index.js"
+  },
+  "author": "Caio Wakamatsu",
+  "license": "MIT",
+  "dependencies": {
+    "chess.js": "^1.0.0-beta.6",
+    "node-uci": "^1.3.4"
+  }
+}
