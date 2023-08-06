@@ -370,8 +370,8 @@ namespace chot {
         return in_check;
     }
 
-    bool position::is_checkmate(bool for_white) const noexcept {
-        return false;
+    bool position::is_checkmate() const noexcept {
+        return possible_moves().size() == 0;
     }
 
     std::string_view position::original_fen() const noexcept {

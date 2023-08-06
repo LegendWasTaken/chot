@@ -18,7 +18,7 @@ const chooseRandomOpening = () => {
 
 
 let engineOne = initializeEngine("engines/chot-uci");
-let engineTwo = initializeEngine("engines/chot-uci");
+let engineTwo = initializeEngine("engines/chot-uci-mate");
 let engines = Promise.all([engineOne, engineTwo]);
 engines.then(async ([one, two]) => {
     let getWinner = (game) => {

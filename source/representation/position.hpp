@@ -35,7 +35,7 @@ namespace chot {
 
         [[nodiscard]] bool is_check(bool for_white) const noexcept;
 
-        [[nodiscard]] bool is_checkmate(bool for_white) const noexcept;
+        [[nodiscard]] bool is_checkmate() const noexcept;
 
         [[nodiscard]] std::string_view original_fen() const noexcept;
 

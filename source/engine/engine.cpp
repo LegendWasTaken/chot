@@ -13,6 +13,10 @@ namespace chot::engine {
         }
 
         float eval_for_player(chot::position &position) {
+            if (position.is_checkmate()) {
+                return std::numeric_limits<float>::infinity() * (position.is_whites_turn() ? -1.0f : 1.0f);
+            }
+
             return
 //                    legal_move_eval(position) +
                             material_advantage(position);
